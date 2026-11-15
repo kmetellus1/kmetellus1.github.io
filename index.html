@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kirk Metellus · IT Support Technician</title>
+<meta name="description" content="Kirkland Metellus, IT Support Technician in Brooklyn, NY. From physical security to 24/7 rail operations to enterprise IT, with hands-on labs in Splunk, Active Directory and Cisco networking.">
+<meta name="theme-color" content="#050914">
+<link rel="canonical" href="https://kmetellus1.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 140'%3E%3Cpath d='M60 5 L112 22 V64 C112 98 90 121 60 135 C30 121 8 98 8 64 V22 Z' fill='%230B1428' stroke='%23D6AD55' stroke-width='7'/%3E%3Ctext x='60' y='88' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='48' fill='%23E8ECF5'%3EKM%3C/text%3E%3C/svg%3E">
+
+<!-- Link preview card for LinkedIn, Slack, iMessage and others -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kirk Metellus">
+<meta property="og:title" content="Kirkland Metellus · IT Support Technician">
+<meta property="og:description" content="From physical security to 24/7 rail operations to enterprise IT. Experience, hands-on labs and certifications.">
+<meta property="og:url" content="https://kmetellus1.github.io/">
+<meta property="og:image" content="https://kmetellus1.github.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta property="og:image:alt" content="Kirkland Metellus, IT Support Technician, on a galaxy background">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Base reset (the Claude preview added this automatically; a real site needs it) */
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img, svg { max-width: 100%; }
+[hidden] { display: none !important; }
+/* Layout: a live galaxy canvas fills the screen behind everything. The hero floats
+   directly on the galaxy; each section below is a dark glass panel with gaps between,
+   so the stars stay visible and keep moving as you scroll. One committed dark look. */
+:root {
+  color-scheme: dark;
+
+  /* Color: deep space with Kirk's navy-and-gold branding */
+  --bg: #050914;                          /* deep space */
+  --panel: rgba(9, 16, 34, 0.84);         /* glass panels over the stars */
+  --panel-line: rgba(214, 173, 85, 0.20); /* faint gold panel edge */
+  --surface: rgba(19, 30, 56, 0.92);      /* cards and tables inside panels */
+  --plate: #0B1428;                       /* solid navy for badges and dots */
+  --ink: #E8ECF5;
+  --muted: #A6B1C7;
+  --line: rgba(166, 177, 199, 0.18);
+  --line-strong: rgba(166, 177, 199, 0.36);
+  --gold: #D6AD55;
+  --gold-ink: #E2BC66;
+  --on-gold: #13203B;
+  --focus: #8AB0F2;
+  --shadow: rgba(3, 6, 14, 0.92);
+
+  /* Space palette, also read by the canvas script below */
+  --star: #DCE6FF;
+  --nebula-1: #1F3F99;
+  --nebula-2: #4A2B85;
+  --nebula-3: #C9A04A;
+  --galaxy-core: #FFE3A6;
+  --galaxy-arm: #9DB8FF;
+
+  /* Type: signage-style condensed display, matching body, mono for labels */
+  --font-display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  /* Fallback sky if the canvas can't run */
+  background:
+    radial-gradient(70% 50% at 80% 10%, color-mix(in srgb, var(--nebula-1) 35%, transparent), transparent 70%),
+    radial-gradient(60% 40% at 10% 70%, color-mix(in srgb, var(--nebula-2) 25%, transparent), transparent 70%),
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+}
+h1, h2, h3 { text-wrap: balance; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+
+/* The galaxy canvas sits behind the whole page */
+#space {
+  position: fixed; top: 0; left: 0; z-index: 0;
+  width: 100vw; height: 100vh; display: block; pointer-events: none;
+}
+.site { position: relative; z-index: 1; }
+
+/* One wrapper sets the max width and the side gutter everywhere */
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Keyboard users can jump past the hero */
+.skip {
+  position: absolute; left: 16px; top: -100px; z-index: 20;
+  background: var(--gold); color: var(--on-gold);
+  padding: 10px 14px; border-radius: 6px; font-weight: 600; text-decoration: none;
+}
+.skip:focus { top: calc(16px + env(safe-area-inset-top, 0px)); }
+
+/* Small uppercase labels, like a log or a badge */
+.label {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- Hero, floating on the galaxy ---------- */
+.hero { text-shadow: 0 1px 2px var(--shadow), 0 0 28px var(--shadow); }
+.hero .wrap { padding-block: 22px 76px; }
+
+.topbar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px 24px; margin-bottom: 64px;
+}
+.brand { color: var(--muted); text-decoration: none; }
+.nav { display: flex; flex-wrap: wrap; gap: 6px 20px; list-style: none; margin: 0; padding: 0; }
+.nav a { color: var(--muted); text-decoration: none; transition: color 0.15s; }
+.nav a:hover { color: var(--ink); }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 48px;
+  align-items: center;
+}
+.hero-text { min-width: 0; }
+.kicker { color: var(--gold); margin-bottom: 14px; }
+h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(46px, 8.4vw, 84px);
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  margin: 0 0 18px;
+}
+.lede {
+  font-size: clamp(18px, 2.2vw, 21px);
+  line-height: 1.5;
+  max-width: 54ch;
+  margin-bottom: 18px;
+}
+.status { display: flex; align-items: center; gap: 10px; color: var(--muted); margin-bottom: 28px; }
+.status::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--gold); flex: none;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 25%, transparent);
+}
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 46px; padding: 0 20px; border-radius: 6px;
+  font-weight: 600; font-size: 16px; text-decoration: none; text-shadow: none;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+.btn-primary { background: var(--gold); color: var(--on-gold); border: 1.5px solid var(--gold); }
+.btn-primary:hover { background: var(--ink); border-color: var(--ink); }
+.btn-ghost { color: var(--ink); border: 1.5px solid var(--line-strong); background: var(--panel); }
+.btn-ghost:hover { border-color: var(--gold); }
+
+/* Shield badge: the galaxy turns around it */
+.shield { width: 172px; height: auto; display: block; }
+.shield .outer { fill: var(--plate); stroke: var(--gold); stroke-width: 3; }
+.shield .inner { fill: none; stroke: var(--line-strong); stroke-width: 1.5; }
+.shield text {
+  fill: var(--ink);
+  font-family: var(--font-display); font-weight: 700; font-size: 46px;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Glass panels ---------- */
+main .wrap { display: grid; gap: 24px; padding-block: 0 24px; }
+section {
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: 18px;
+  padding: clamp(28px, 5vw, 48px) clamp(20px, 4.5vw, 48px);
+}
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 4.6vw, 42px);
+  line-height: 1.05;
+  margin: 0 0 10px;
+}
+h2::before {
+  content: ""; display: block; width: 36px; height: 3px;
+  background: var(--gold); margin-bottom: 14px;
+}
+.lead { color: var(--muted); max-width: 62ch; margin-bottom: 32px; }
+h3 { font-family: var(--font-display); font-weight: 600; font-size: 24px; line-height: 1.15; margin: 0; }
+
+/* Career path drawn as a route line with four stops */
+.route {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;
+  position: relative;
+}
+.route::before {
+  content: ""; position: absolute; top: 8px; left: 9px; right: 9px; height: 2px;
+  background: var(--line-strong);
+}
+.route li { position: relative; padding-top: 36px; min-width: 0; }
+.route li::before {
+  content: ""; position: absolute; top: 0; left: 0;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--plate); border: 2px solid var(--gold);
+}
+.route li.now::before { background: var(--gold); box-shadow: 0 0 0 6px color-mix(in srgb, var(--gold) 22%, transparent), 0 0 18px var(--gold); }
+.route li.next::before { border-style: dashed; border-color: var(--muted); }
+.route .label { color: var(--gold-ink); display: block; margin-bottom: 6px; }
+.route li.next .label { color: var(--muted); }
+.route h3 { font-size: 22px; margin-bottom: 4px; }
+.route p { color: var(--muted); font-size: 15.5px; line-height: 1.5; }
+
+/* About */
+.about p { max-width: 65ch; font-size: 18px; }
+.about p + p { margin-top: 16px; }
+
+/* Experience */
+.roles { list-style: none; margin: 0; padding: 0; }
+.role {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 20px; padding-block: 24px; border-top: 1px solid var(--line);
+}
+.role:first-child { border-top: 0; padding-top: 0; }
+.role:last-child { padding-bottom: 0; }
+.role .org { color: var(--muted); grid-column: 1; }
+.role .when { color: var(--gold-ink); grid-column: 2; grid-row: 1; align-self: start; padding-top: 6px; white-space: nowrap; }
+.role ul { grid-column: 1 / -1; margin: 10px 0 0; padding-left: 20px; display: grid; gap: 6px; max-width: 70ch; }
+.role li::marker { color: var(--gold); }
+
+/* Translation table */
+.table-wrap {
+  overflow-x: auto; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--surface);
+}
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 14px 18px; vertical-align: top; }
+th { color: var(--muted); border-bottom: 1px solid var(--line); font-weight: 500; }
+td { border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+td:first-child { color: var(--muted); width: 44%; }
+td:last-child { font-weight: 500; }
+td .tool { color: var(--muted); font-weight: 400; }
+
+/* Projects */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 18px;
+}
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  padding: 24px; display: flex; flex-direction: column; gap: 12px; min-width: 0;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: var(--panel-line); transform: translateY(-2px); }
+.card .label { color: var(--gold-ink); }
+.card p { color: var(--muted); font-size: 16px; line-height: 1.55; }
+.card .shows { color: var(--ink); }
+.card .shows strong { font-weight: 600; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.tags li {
+  font-family: var(--font-mono); font-size: 12px; color: var(--muted);
+  border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 8px;
+}
+.card .more {
+  margin-top: auto; padding-top: 4px; color: var(--gold-ink);
+  font-weight: 600; text-decoration: none;
+}
+.card .more:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Certifications: solid chip = earned, dashed chip = in progress */
+.certs { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.certs li {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 8px 16px; padding-block: 16px; border-bottom: 1px solid var(--line);
+}
+.cert-name { font-weight: 600; min-width: 0; }
+.cert-name span { display: block; color: var(--muted); font-weight: 400; font-size: 15px; }
+.chip {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 5px 10px; border-radius: 999px; white-space: nowrap;
+}
+.chip-earned { background: var(--gold); color: var(--on-gold); border: 1.5px solid var(--gold); }
+.chip-progress { color: var(--gold-ink); border: 1.5px dashed var(--gold); }
+
+/* Skills */
+.skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 28px 32px;
+}
+.skills h3 {
+  font-family: var(--font-mono); font-size: 12.5px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-ink);
+  margin-bottom: 10px;
+}
+.skills ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+
+/* ---------- Contact ---------- */
+.contact .wrap { padding-block: 0 96px; }
+.contact-panel {
+  background: var(--panel);
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  padding: clamp(28px, 5vw, 48px) clamp(20px, 4.5vw, 48px) 28px;
+}
+.contact-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 14px; margin-bottom: 40px; }
+.contact-links a, .contact-links div {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 18px 20px; border: 1px solid var(--line-strong); border-radius: 10px;
+  background: var(--surface); text-decoration: none; min-width: 0;
+}
+.contact-links a { transition: border-color 0.15s; }
+.contact-links a:hover { border-color: var(--gold); }
+.contact-links .label { color: var(--gold); }
+.contact-links .value { font-size: 18px; font-weight: 500; overflow-wrap: anywhere; }
+.foot { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 20px; }
+
+/* Pause control for the moving background (WCAG 2.2.2) */
+.motion-toggle {
+  position: fixed; z-index: 5;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 40px; padding: 0 14px; border-radius: 999px;
+  background: var(--panel); color: var(--ink); border: 1px solid var(--line-strong);
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; transition: border-color 0.15s;
+}
+.motion-toggle:hover { border-color: var(--gold); }
+.motion-toggle::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+}
+.motion-toggle[data-state="paused"]::before { background: var(--muted); }
+
+/* ---------- Phone layout ---------- */
+@media (max-width: 760px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .shield { width: 104px; order: -1; justify-self: center; }
+  .topbar { margin-bottom: 44px; }
+  .hero .wrap { padding-bottom: 56px; }
+
+  .route { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .route::before { top: 9px; bottom: 9px; left: 8px; right: auto; width: 2px; height: auto; }
+  .route li { padding-top: 0; padding-left: 36px; }
+  .route li::before { top: 3px; }
+
+  .role { grid-template-columns: minmax(0, 1fr); }
+  .role .when { grid-column: 1; grid-row: auto; padding-top: 2px; }
+  th, td { padding: 12px 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+  .card:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- The galaxy: drawn by the script at the bottom of this page -->
+<canvas id="space" aria-hidden="true"></canvas>
+
+<a class="skip" href="#main">Skip to content</a>
+<button class="motion-toggle" id="motion-toggle" type="button" data-state="playing">Pause motion</button>
+
+<div class="site">
+
+<!-- HERO: who Kirk is, in one screen -->
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand label" href="#main">K. Metellus</a>
+      <nav aria-label="Sections">
+        <ul class="nav">
+          <li><a class="label" href="#about">About</a></li>
+          <li><a class="label" href="#experience">Experience</a></li>
+          <li><a class="label" href="#projects">Projects</a></li>
+          <li><a class="label" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="hero-grid">
+      <div class="hero-text">
+        <p class="label kicker">IT Support Technician · Brooklyn, NY</p>
+        <h1>Kirkland Metellus</h1>
+        <p class="lede">More than a decade of watching systems for trouble and fixing it fast. First on venue floors, then in a 24/7 rail operations center, now in enterprise IT.</p>
+        <p class="status">Open to IT support and systems roles, on-site or hybrid in NYC</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://www.linkedin.com/in/kmetellus" target="_blank" rel="noopener">Connect on LinkedIn</a>
+          <a class="btn btn-ghost" href="https://github.com/kmetellus1" target="_blank" rel="noopener">View GitHub</a>
+        </div>
+      </div>
+
+      <svg class="shield" viewBox="0 0 120 140" role="img" aria-label="KM monogram">
+        <path class="outer" d="M60 5 L112 22 V64 C112 98 90 121 60 135 C30 121 8 98 8 64 V22 Z"/>
+        <path class="inner" d="M60 15 L103 29 V64 C103 92 85 112 60 124 C35 112 17 92 17 64 V29 Z"/>
+        <text x="60" y="84" text-anchor="middle">KM</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <!-- THE THROUGHLINE: the career path as a route with four stops -->
+    <section aria-labelledby="path-title">
+      <h2 id="path-title">The throughline</h2>
+      <p class="lead">Every role has been the same job at heart: watch closely, catch problems early, and respond the right way.</p>
+      <ol class="route">
+        <li>
+          <span class="label">10+ years</span>
+          <h3>Physical security</h3>
+          <p>Security Guard and Peace Officer at New York venues</p>
+        </li>
+        <li>
+          <span class="label">2 years</span>
+          <h3>Rail operations</h3>
+          <p>Operations Technician at CSX Transportation, 24/7 monitoring</p>
+        </li>
+        <li class="now">
+          <span class="label">Now</span>
+          <h3>Enterprise IT support</h3>
+          <p>IT Support Technician with Astreya at Google NYC</p>
+        </li>
+        <li class="next">
+          <span class="label">Next</span>
+          <h3>Systems and security</h3>
+          <p>Systems administration next, cybersecurity long term</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about" aria-labelledby="about-title">
+      <h2 id="about-title">About</h2>
+      <p>I'm Kirk. For more than ten years I worked in physical security across New York as a Security Guard and Peace Officer: monitoring cameras, controlling access, and documenting incidents.</p>
+      <p>At CSX I monitored digital control and signal systems in a 24/7 operations environment, catching anomalies in real time and escalating incidents. Today I support enterprise users at Google's NYC office through Astreya, and I'm building toward systems and security work through certifications and hands-on labs.</p>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" aria-labelledby="exp-title">
+      <h2 id="exp-title">Experience</h2>
+      <p class="lead">Three roles, one set of instincts.</p>
+      <ol class="roles">
+        <li class="role">
+          <h3>IT Support Technician</h3>
+          <p class="org">Astreya, on-site at Google NYC</p>
+          <span class="when label">Current</span>
+          <ul>
+            <li>Support enterprise users across Windows, macOS, ChromeOS, Linux and iOS.</li>
+            <li>Manage tickets and assets in ServiceNow, Google GUTS and SAP Bronco.</li>
+            <li>Apply ITIL-aligned support practices in daily ticket work.</li>
+          </ul>
+        </li>
+        <li class="role">
+          <h3>Operations Technician</h3>
+          <p class="org">CSX Transportation</p>
+          <span class="when label">2 years</span>
+          <ul>
+            <li>Monitored digital control and signal systems in a 24/7 operations environment.</li>
+            <li>Detected anomalies in real time and escalated incidents.</li>
+          </ul>
+        </li>
+        <li class="role">
+          <h3>Security Guard and Peace Officer</h3>
+          <p class="org">Venues across New York</p>
+          <span class="when label">10+ years</span>
+          <ul>
+            <li>Monitored CCTV and controlled access, including badge credentialing.</li>
+            <li>Documented incidents in written reports.</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <!-- HOW IT TRANSLATES: physical skills mapped to IT skills -->
+    <section aria-labelledby="translate-title">
+      <h2 id="translate-title">Same instincts, new tools</h2>
+      <p class="lead">The skills carried over. The screens changed.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th class="label" scope="col">On the floor</th><th class="label" scope="col">In IT and security</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CCTV monitoring</td><td>SIEM alerting <span class="tool">(Splunk)</span></td></tr>
+            <tr><td>Badge and credential checks</td><td>Identity and access management <span class="tool">(Active Directory)</span></td></tr>
+            <tr><td>Incident reports</td><td>Tickets and case management <span class="tool">(ServiceNow)</span></td></tr>
+            <tr><td>24/7 signal system monitoring</td><td>Real-time anomaly detection and escalation</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PROJECTS: personal labs, documented on GitHub -->
+    <section id="projects" aria-labelledby="proj-title">
+      <h2 id="proj-title">Hands-on projects</h2>
+      <p class="lead">Personal lab projects, each documented step by step on GitHub.</p>
+      <div class="projects">
+        <article class="card">
+          <span class="label">Detection · Splunk</span>
+          <h3>SSH Brute-Force Detection</h3>
+          <p>A Splunk detection pipeline for SSH brute-force attempts, built with SPL queries, threshold alerting and dashboards, and mapped to MITRE ATT&amp;CK technique T1110.001 (password guessing).</p>
+          <p class="shows"><strong>Shows:</strong> detection logic, alert thresholds and threat mapping.</p>
+          <ul class="tags"><li>Splunk</li><li>SPL</li><li>MITRE ATT&amp;CK</li></ul>
+          <a class="more" href="https://github.com/kmetellus1" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </article>
+        <article class="card">
+          <span class="label">Identity · Windows</span>
+          <h3>Active Directory Account Management</h3>
+          <p>User account administration in a TryHackMe Active Directory domain, done both in Active Directory Users and Computers and with PowerShell: managing accounts, permissions and password resets.</p>
+          <p class="shows"><strong>Shows:</strong> core help desk and sysadmin work, by hand and scripted.</p>
+          <ul class="tags"><li>Active Directory</li><li>ADUC</li><li>PowerShell</li></ul>
+          <a class="more" href="https://github.com/kmetellus1" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </article>
+        <article class="card">
+          <span class="label">Networking · Cisco</span>
+          <h3>Cisco Networking Lab Series</h3>
+          <p>Six Packet Tracer labs covering LAN setup, static routing, DHCP, VLANs with inter-VLAN routing, device hardening, ACLs, DNS and web servers, and NAT/PAT.</p>
+          <p class="shows"><strong>Shows:</strong> how networks are built, segmented and secured.</p>
+          <ul class="tags"><li>Packet Tracer</li><li>VLANs</li><li>ACLs</li><li>NAT/PAT</li></ul>
+          <a class="more" href="https://github.com/kmetellus1" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS: earned vs. in progress, clearly labeled -->
+    <section aria-labelledby="cert-title">
+      <h2 id="cert-title">Certifications</h2>
+      <p class="lead">Earned credentials, plus the two I'm working toward now.</p>
+      <ul class="certs">
+        <li><p class="cert-name">Google Cybersecurity Professional Certificate<span>Google</span></p><span class="chip chip-earned">Earned</span></li>
+        <li><p class="cert-name">Google IT Support Professional Certificate<span>Google</span></p><span class="chip chip-earned">Earned</span></li>
+        <li><p class="cert-name">Cyber Security 101<span>TryHackMe</span></p><span class="chip chip-earned">Completed</span></li>
+        <li><p class="cert-name">CompTIA Security+<span>CompTIA</span></p><span class="chip chip-progress">In progress</span></li>
+        <li><p class="cert-name">CompTIA Network+<span>CompTIA</span></p><span class="chip chip-progress">In progress</span></li>
+      </ul>
+    </section>
+
+    <!-- SKILLS: grouped by category -->
+    <section aria-labelledby="skills-title">
+      <h2 id="skills-title">Tools and skills</h2>
+      <p class="lead">What I use day to day and in the lab.</p>
+      <div class="skills">
+        <div><h3>Operating systems</h3><ul><li>Windows</li><li>macOS</li><li>ChromeOS</li><li>Linux</li><li>iOS</li></ul></div>
+        <div><h3>Ticketing and assets</h3><ul><li>ServiceNow</li><li>Google GUTS</li><li>SAP Bronco</li></ul></div>
+        <div><h3>Identity</h3><ul><li>Active Directory</li><li>ADUC</li><li>PowerShell</li></ul></div>
+        <div><h3>Networking</h3><ul><li>Cisco Packet Tracer</li><li>VLANs and DHCP</li><li>ACLs and NAT/PAT</li><li>DNS</li></ul></div>
+        <div><h3>Security</h3><ul><li>Splunk (SPL)</li><li>MITRE ATT&amp;CK</li><li>Wireshark</li><li>TryHackMe</li></ul></div>
+        <div><h3>AI tools</h3><ul><li>Claude</li><li>ChatGPT</li><li>Microsoft Copilot</li></ul></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- CONTACT -->
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-panel">
+      <h2>Let's connect</h2>
+      <p class="lead">The fastest way to reach me is LinkedIn. My lab work lives on GitHub.</p>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/kmetellus" target="_blank" rel="noopener">
+          <span class="label">LinkedIn</span>
+          <span class="value">linkedin.com/in/kmetellus</span>
+        </a>
+        <a href="https://github.com/kmetellus1" target="_blank" rel="noopener">
+          <span class="label">GitHub</span>
+          <span class="value">github.com/kmetellus1</span>
+        </a>
+        <div>
+          <span class="label">Location</span>
+          <span class="value">Brooklyn, NY · on-site or hybrid</span>
+        </div>
+      </div>
+      <p class="foot">© 2026 Kirkland Metellus · Built with plain HTML, CSS and canvas</p>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   Galaxy background
+   - Three layers of stars move at different speeds as you scroll (parallax)
+   - Stars stretch into streaks when you scroll fast
+   - A two-armed spiral galaxy turns around the KM shield, and spins with scroll
+   - Nebula clouds drift slowly; a shooting star crosses every few seconds
+   - Honors "reduce motion" and has a Pause button
+------------------------------------------------------------------- */
+(() => {
+  const canvas = document.getElementById('space');
+  const ctx = canvas.getContext('2d');
+  const shield = document.querySelector('.shield');
+  const toggle = document.getElementById('motion-toggle');
+  if (!ctx || !shield || !toggle) return;
+  const reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Colors come from the CSS tokens, so the page and the canvas share one palette
+  const css = getComputedStyle(document.documentElement);
+  const tok = (name, fallback) => css.getPropertyValue(name).trim() || fallback;
+  const hexToRgb = hex => {
+    let h = hex.replace('#', '');
+    if (h.length === 3) h = h.split('').map(c => c + c).join('');
+    const n = parseInt(h, 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  };
+  const rgba = (hex, a) => { const [r, g, b] = hexToRgb(hex); return `rgba(${r},${g},${b},${a})`; };
+  const C = {
+    bg: tok('--bg', '#050914'),
+    star: tok('--star', '#DCE6FF'),
+    gold: tok('--gold', '#D6AD55'),
+    neb1: tok('--nebula-1', '#1F3F99'),
+    neb2: tok('--nebula-2', '#4A2B85'),
+    neb3: tok('--nebula-3', '#C9A04A'),
+    core: tok('--galaxy-core', '#FFE3A6'),
+    arm: tok('--galaxy-arm', '#9DB8FF'),
+  };
+
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const gauss = () => {
+    let u = 0, v = 0;
+    while (!u) u = Math.random();
+    while (!v) v = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  };
+  const mod = (n, m) => ((n % m) + m) % m;
+
+  let W = 0, H = 0, DPR = 1, lastW = 0;
+  let stars = [], nebulas = [], galaxyBuckets = [], shooters = [];
+  let gx = 0, gy0 = 0, gR = 200;
+  let running = false, rafId = 0, lastT = 0, lastScroll = window.scrollY, vel = 0, nextShot = 2.5;
+
+  // A soft glow is painted once, then stamped each frame (much cheaper than new gradients)
+  function makeGlow(hex, alpha, size) {
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const g = c.getContext('2d');
+    const grad = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    grad.addColorStop(0, rgba(hex, alpha));
+    grad.addColorStop(0.45, rgba(hex, alpha * 0.4));
+    grad.addColorStop(1, rgba(hex, 0));
+    g.fillStyle = grad;
+    g.fillRect(0, 0, size, size);
+    return c;
+  }
+  const glowNeb = [makeGlow(C.neb1, 0.55, 256), makeGlow(C.neb2, 0.45, 256), makeGlow(C.neb3, 0.16, 256)];
+  const glowCore = makeGlow(C.core, 0.85, 128);
+
+  function buildStars() {
+    const count = Math.round(Math.min(900, Math.max(260, (W * H) / 1700)));
+    const layers = [
+      { depth: 0.06, share: 0.55, size: [0.5, 1.0], alpha: [0.25, 0.6] },  // far
+      { depth: 0.16, share: 0.30, size: [0.8, 1.5], alpha: [0.4, 0.8] },   // middle
+      { depth: 0.34, share: 0.15, size: [1.2, 2.3], alpha: [0.6, 1.0] },   // near
+    ];
+    stars = [];
+    for (const L of layers) {
+      const n = Math.round(count * L.share);
+      for (let i = 0; i < n; i++) {
+        stars.push({
+          x: Math.random() * W, y: Math.random() * H, depth: L.depth,
+          size: rand(L.size[0], L.size[1]), a: rand(L.alpha[0], L.alpha[1]),
+          tw: rand(0.6, 2.4), ph: Math.random() * Math.PI * 2,
+          gold: Math.random() < 0.08,
+        });
+      }
+    }
+    stars.sort((p, q) => p.gold - q.gold); // white first, then gold: one color switch per frame
+  }
+
+  function buildNebulas() {
+    const base = Math.max(W, H);
+    nebulas = [
+      { img: glowNeb[0], x: W * 0.15, y: H * 0.25, r: base * 0.45, sx: 1.4, depth: 0.03, drift: 0.05, ph: 0 },
+      { img: glowNeb[1], x: W * 0.85, y: H * 0.75, r: base * 0.40, sx: 1.2, depth: 0.045, drift: 0.04, ph: 2 },
+      { img: glowNeb[0], x: W * 0.60, y: H * 1.30, r: base * 0.35, sx: 1.6, depth: 0.05, drift: 0.06, ph: 4 },
+      { img: glowNeb[2], x: W * 0.30, y: H * 0.95, r: base * 0.28, sx: 1.3, depth: 0.04, drift: 0.07, ph: 1 },
+    ];
+  }
+
+  function buildGalaxy() {
+    const n = W < 700 ? 800 : 1600;
+    const palette = [
+      rgba(C.core, 0.85), rgba(C.core, 0.45), rgba(C.gold, 0.5),
+      rgba(C.star, 0.75), rgba(C.star, 0.35), rgba(C.arm, 0.6), rgba(C.arm, 0.3), rgba(C.neb2, 0.6),
+    ];
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      let r, th, b;
+      if (Math.random() < 0.18) {
+        // the bright central bulge
+        r = Math.min(1, Math.abs(gauss()) * 0.09);
+        th = Math.random() * Math.PI * 2;
+        b = Math.random() < 0.6 ? 0 : 1;
+      } else {
+        // two spiral arms, winding outward
+        const t = Math.pow(Math.random(), 0.75);
+        r = 0.06 + t * 0.94;
+        th = (i % 2) * Math.PI + t * 3.6 + gauss() * (0.28 * (1 - t) + 0.12);
+        const k = Math.random();
+        b = t < 0.25 ? (k < 0.5 ? 1 : 2)
+          : k < 0.35 ? 3 : k < 0.6 ? 4 : k < 0.8 ? 5 : k < 0.93 ? 6 : 7;
+      }
+      pts.push({ r, th, b, s: rand(0.6, r < 0.15 ? 1.7 : 1.3) });
+    }
+    galaxyBuckets = palette.map((fill, i) => ({ fill, pts: pts.filter(p => p.b === i) }));
+  }
+
+  // The galaxy is centered on the shield where it sits before you scroll
+  function measure() {
+    const rect = shield.getBoundingClientRect();
+    gx = rect.left + rect.width / 2;
+    gy0 = rect.top + window.scrollY + rect.height / 2;
+    gR = Math.max(140, Math.min(420, Math.min(W, H) * (W < 700 ? 0.44 : 0.42)));
+    if (!running) draw(lastT, window.scrollY, 0);
+  }
+
+  function resize() {
+    const w = window.innerWidth, h = window.innerHeight;
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(w * DPR);
+    canvas.height = Math.round(h * DPR);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    W = w; H = h;
+    // Rebuild only when the width really changes (phones resize height while scrolling)
+    if (!stars.length || Math.abs(w - lastW) > 40) {
+      lastW = w;
+      buildStars(); buildNebulas(); buildGalaxy();
+    }
+    measure();
+  }
+
+  function spawnShooter() {
+    const dir = Math.random() < 0.5 ? -1 : 1;
+    const ang = rand(0.25, 0.55);
+    const speed = rand(650, 1000);
+    const ux = Math.cos(ang) * dir, uy = Math.sin(ang);
+    shooters.push({
+      x: rand(W * 0.1, W * 0.9), y: rand(0, H * 0.45),
+      vx: ux * speed, vy: uy * speed, ux, uy,
+      len: rand(110, 190), life: 0, max: rand(0.7, 1.1),
+    });
+  }
+
+  function draw(t, sy, dt) {
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // 1. Nebula clouds: very slow parallax plus a gentle sideways drift
+    ctx.globalCompositeOperation = 'lighter';
+    for (const n of nebulas) {
+      const span = H + 2 * n.r;
+      const y = mod(n.y - sy * n.depth + n.r, span) - n.r;
+      const x = n.x + Math.sin(t * n.drift + n.ph) * 40;
+      ctx.drawImage(n.img, x - n.r * n.sx, y - n.r, n.r * 2 * n.sx, n.r * 2);
+    }
+
+    // 2. Spiral galaxy: turns slowly on its own and spins further as you scroll
+    const cy = gy0 - sy * 0.12;
+    if (cy > -gR && cy < H + gR) {
+      const spin = t * 0.06 + sy * 0.0009;
+      const tilt = 0.52, rot = -0.42, cr = Math.cos(rot), sr = Math.sin(rot);
+      ctx.save();
+      ctx.translate(gx, cy);
+      ctx.rotate(rot);
+      ctx.drawImage(glowCore, -gR * 0.55, -gR * 0.55 * tilt, gR * 1.1, gR * 1.1 * tilt);
+      ctx.restore();
+      for (const B of galaxyBuckets) {
+        ctx.fillStyle = B.fill;
+        for (const p of B.pts) {
+          const ang = p.th + spin;
+          const x = Math.cos(ang) * p.r * gR;
+          const y = Math.sin(ang) * p.r * gR * tilt;
+          ctx.fillRect(gx + x * cr - y * sr, cy + x * sr + y * cr, p.s, p.s);
+        }
+      }
+    }
+
+    // 3. Stars in three depth layers; they twinkle, and streak when you scroll fast
+    ctx.globalCompositeOperation = 'source-over';
+    const M = 70, span = H + 2 * M;
+    let fill = '';
+    for (const s of stars) {
+      const f = s.gold ? C.gold : C.star;
+      if (f !== fill) { ctx.fillStyle = f; ctx.strokeStyle = f; fill = f; }
+      const y = mod(s.y - sy * s.depth + M, span) - M;
+      if (y < -M || y > H + M) continue;
+      ctx.globalAlpha = s.a * (0.65 + 0.35 * Math.sin(t * s.tw + s.ph));
+      const streak = Math.max(-70, Math.min(70, vel * s.depth * 0.06));
+      if (Math.abs(streak) > 2) {
+        ctx.lineWidth = s.size;
+        ctx.beginPath(); ctx.moveTo(s.x, y); ctx.lineTo(s.x, y + streak); ctx.stroke();
+      } else if (s.size > 1.6) {
+        ctx.beginPath(); ctx.arc(s.x, y, s.size / 2 + 0.3, 0, Math.PI * 2); ctx.fill();
+      } else {
+        ctx.fillRect(s.x, y, s.size, s.size);
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // 4. Shooting stars
+    if (running) {
+      nextShot -= dt;
+      if (nextShot <= 0) { spawnShooter(); nextShot = rand(3.5, 8); }
+    }
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.lineCap = 'round';
+    for (let i = shooters.length - 1; i >= 0; i--) {
+      const s = shooters[i];
+      s.life += dt;
+      if (s.life > s.max) { shooters.splice(i, 1); continue; }
+      const hx = s.x + s.vx * s.life, hy = s.y + s.vy * s.life;
+      const len = s.len * Math.sin(Math.PI * (s.life / s.max));
+      const tx = hx - s.ux * len, ty = hy - s.uy * len;
+      const grad = ctx.createLinearGradient(hx, hy, tx, ty);
+      grad.addColorStop(0, rgba(C.core, 0.95));
+      grad.addColorStop(1, rgba(C.core, 0));
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(tx, ty); ctx.stroke();
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function frame(now) {
+    const t = now / 1000;
+    const dt = lastT ? Math.min(0.05, t - lastT) : 0.016;
+    lastT = t;
+    const sy = window.scrollY;
+    const raw = (sy - lastScroll) / Math.max(dt, 0.001);
+    lastScroll = sy;
+    vel += (raw - vel) * 0.18;           // smoothed scroll speed, in px per second
+    if (Math.abs(vel) < 1) vel = 0;
+    draw(t, sy, dt);
+    rafId = requestAnimationFrame(frame);
+  }
+
+  function start() {
+    if (running) return;
+    running = true;
+    lastScroll = window.scrollY;
+    rafId = requestAnimationFrame(t => { lastT = t / 1000; frame(t); });
+  }
+  function stop() {
+    running = false;
+    cancelAnimationFrame(rafId);
+    vel = 0;
+    shooters = [];
+    draw(lastT, window.scrollY, 0);       // leave a still frame behind
+  }
+
+  // Motion setting: the visitor's own choice wins, otherwise follow "reduce motion"
+  let pref = null;
+  try { pref = localStorage.getItem('kirk-motion'); } catch (e) {}
+  function applyMotion() {
+    const off = pref ? pref === 'paused' : reduceMQ.matches;
+    toggle.textContent = off ? 'Play motion' : 'Pause motion';
+    toggle.dataset.state = off ? 'paused' : 'playing';
+    if (off) stop(); else start();
+  }
+  toggle.addEventListener('click', () => {
+    pref = running ? 'paused' : 'playing';
+    try { localStorage.setItem('kirk-motion', pref); } catch (e) {}
+    applyMotion();
+  });
+  if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', applyMotion);
+
+  let resizeTimer = 0;
+  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 120); });
+  window.addEventListener('load', measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
+  resize();
+  applyMotion();
+})();
+</script>
+
+</body>
+</html>
