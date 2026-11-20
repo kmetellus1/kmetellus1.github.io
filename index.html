@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kirk Metellus · IT Support Technician</title>
 <meta name="description" content="Kirkland Metellus, IT Support Technician in Brooklyn, NY. From physical security to 24/7 rail operations to enterprise IT, with hands-on labs in Splunk, Active Directory and Cisco networking.">
-<meta name="theme-color" content="#050914">
+<meta name="theme-color" content="#02030A">
 <link rel="canonical" href="https://kmetellus1.github.io/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 140'%3E%3Cpath d='M60 5 L112 22 V64 C112 98 90 121 60 135 C30 121 8 98 8 64 V22 Z' fill='%230B1428' stroke='%23D6AD55' stroke-width='7'/%3E%3Ctext x='60' y='88' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='48' fill='%23E8ECF5'%3EKM%3C/text%3E%3C/svg%3E">
 
@@ -25,23 +25,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* Base reset (the Claude preview added this automatically; a real site needs it) */
+/* Base reset */
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; }
 img, svg { max-width: 100%; }
 [hidden] { display: none !important; }
-/* Layout: a live galaxy canvas fills the screen behind everything. The hero floats
-   directly on the galaxy; each section below is a dark glass panel with gaps between,
-   so the stars stay visible and keep moving as you scroll. One committed dark look. */
+/* Layout: a starfield canvas fills the screen behind everything. The hero's centerpiece
+   is the KAM shield drawn as a block of glass with a spiral galaxy turning inside it.
+   Each section below is a dark glass panel with gaps between, so the stars stay visible. */
 :root {
   color-scheme: dark;
 
-  /* Color: deep space with Kirk's navy-and-gold branding */
-  --bg: #050914;                          /* deep space */
-  --panel: rgba(9, 16, 34, 0.84);         /* glass panels over the stars */
-  --panel-line: rgba(214, 173, 85, 0.20); /* faint gold panel edge */
-  --surface: rgba(19, 30, 56, 0.92);      /* cards and tables inside panels */
-  --plate: #0B1428;                       /* solid navy for badges and dots */
+  /* Color: near-black space, blue-violet glass, Kirk's gold for actions and status */
+  --bg: #02030A;                           /* near-black space */
+  --panel: rgba(6, 10, 24, 0.86);          /* glass panels over the stars */
+  --panel-line: rgba(157, 184, 255, 0.16); /* faint blue glass edge */
+  --panel-sheen: rgba(185, 204, 255, 0.07);
+  --surface: rgba(17, 26, 52, 0.92);       /* cards and tables inside panels */
+  --plate: #0B1428;                        /* solid navy for dots */
   --ink: #E8ECF5;
   --muted: #A6B1C7;
   --line: rgba(166, 177, 199, 0.18);
@@ -50,15 +51,19 @@ img, svg { max-width: 100%; }
   --gold-ink: #E2BC66;
   --on-gold: #13203B;
   --focus: #8AB0F2;
-  --shadow: rgba(3, 6, 14, 0.92);
+  --shadow: rgba(1, 2, 8, 0.92);
 
-  /* Space palette, also read by the canvas script below */
+  /* Space and glass palette, also read by the canvas script below */
   --star: #DCE6FF;
-  --nebula-1: #1F3F99;
-  --nebula-2: #4A2B85;
+  --nebula-1: #2A3FB8;
+  --nebula-2: #5B2FA8;
   --nebula-3: #C9A04A;
-  --galaxy-core: #FFE3A6;
-  --galaxy-arm: #9DB8FF;
+  --glass-edge: #B9CCFF;
+  --glass-violet: #7B5CFF;
+  --glass-hi: #F2F6FF;
+  --galaxy-core: #ECE6FF;
+  --galaxy-arm: #8FA8FF;
+  --caustic: #FF6A3D;
 
   /* Type: signage-style condensed display, matching body, mono for labels */
   --font-display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
@@ -71,8 +76,8 @@ img, svg { max-width: 100%; }
 body {
   /* Fallback sky if the canvas can't run */
   background:
-    radial-gradient(70% 50% at 80% 10%, color-mix(in srgb, var(--nebula-1) 35%, transparent), transparent 70%),
-    radial-gradient(60% 40% at 10% 70%, color-mix(in srgb, var(--nebula-2) 25%, transparent), transparent 70%),
+    radial-gradient(70% 50% at 80% 10%, color-mix(in srgb, var(--nebula-1) 30%, transparent), transparent 70%),
+    radial-gradient(60% 40% at 10% 70%, color-mix(in srgb, var(--nebula-2) 22%, transparent), transparent 70%),
     var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
@@ -84,12 +89,13 @@ p { margin: 0; }
 a { color: inherit; }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
 
-/* The galaxy canvas sits behind the whole page */
+/* The starfield canvas sits behind the whole page */
 #space {
   position: fixed; top: 0; left: 0; z-index: 0;
   width: 100vw; height: 100vh; display: block; pointer-events: none;
 }
-.site { position: relative; z-index: 1; }
+/* The shield's glow may spill past the gutter; never let it cause sideways scroll */
+.site { position: relative; z-index: 1; overflow-x: clip; }
 
 /* One wrapper sets the max width and the side gutter everywhere */
 .wrap {
@@ -115,23 +121,24 @@ a { color: inherit; }
   text-transform: uppercase;
 }
 
-/* ---------- Hero, floating on the galaxy ---------- */
+/* ---------- Hero ---------- */
 .hero { text-shadow: 0 1px 2px var(--shadow), 0 0 28px var(--shadow); }
-.hero .wrap { padding-block: 22px 76px; }
+.hero .wrap { padding-block: 14px 76px; }
 
 .topbar {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-  gap: 12px 24px; margin-bottom: 64px;
+  gap: 4px 24px; margin-bottom: 56px;
 }
-.brand { color: var(--muted); text-decoration: none; }
-.nav { display: flex; flex-wrap: wrap; gap: 6px 20px; list-style: none; margin: 0; padding: 0; }
-.nav a { color: var(--muted); text-decoration: none; transition: color 0.15s; }
+/* Nav links get vertical padding so each tap target is at least 24px tall (WCAG 2.5.8) */
+.brand { color: var(--muted); text-decoration: none; display: inline-block; padding-block: 10px; }
+.nav { display: flex; flex-wrap: wrap; gap: 0 20px; list-style: none; margin: 0; padding: 0; }
+.nav a { color: var(--muted); text-decoration: none; display: inline-block; padding-block: 10px; transition: color 0.15s; }
 .nav a:hover { color: var(--ink); }
 
 .hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 48px;
+  gap: 40px;
   align-items: center;
 }
 .hero-text { min-width: 0; }
@@ -166,15 +173,24 @@ h1 {
 .btn-primary { background: var(--gold); color: var(--on-gold); border: 1.5px solid var(--gold); }
 .btn-primary:hover { background: var(--ink); border-color: var(--ink); }
 .btn-ghost { color: var(--ink); border: 1.5px solid var(--line-strong); background: var(--panel); }
-.btn-ghost:hover { border-color: var(--gold); }
+.btn-ghost:hover { border-color: var(--glass-edge); }
 
-/* Shield badge: the galaxy turns around it */
-.shield { width: 172px; height: auto; display: block; }
+/* The emblem: a glass KAM shield with a galaxy inside, drawn on its own canvas.
+   The SVG shield is the fallback when scripts can't run. */
+.emblem { position: relative; width: 300px; aspect-ratio: 30 / 34; }
+.emblem canvas {
+  position: absolute; left: -56px; top: -56px;
+  width: calc(100% + 112px); height: calc(100% + 112px);
+  display: none; pointer-events: none;
+}
+.has-emblem .emblem canvas { display: block; }
+.has-emblem .emblem .shield { display: none; }
+.shield { width: 100%; height: 100%; display: block; }
 .shield .outer { fill: var(--plate); stroke: var(--gold); stroke-width: 3; }
 .shield .inner { fill: none; stroke: var(--line-strong); stroke-width: 1.5; }
 .shield text {
   fill: var(--ink);
-  font-family: var(--font-display); font-weight: 700; font-size: 46px;
+  font-family: var(--font-display); font-weight: 700; font-size: 38px;
   letter-spacing: 0.02em;
 }
 
@@ -183,6 +199,7 @@ main .wrap { display: grid; gap: 24px; padding-block: 0 24px; }
 section {
   background: var(--panel);
   border: 1px solid var(--panel-line);
+  box-shadow: inset 0 1px 0 var(--panel-sheen);
   border-radius: 18px;
   padding: clamp(28px, 5vw, 48px) clamp(20px, 4.5vw, 48px);
 }
@@ -263,9 +280,9 @@ td .tool { color: var(--muted); font-weight: 400; }
 .card {
   background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
   padding: 24px; display: flex; flex-direction: column; gap: 12px; min-width: 0;
-  transition: border-color 0.2s, transform 0.2s;
+  transition: border-color 0.2s;
 }
-.card:hover { border-color: var(--panel-line); transform: translateY(-2px); }
+.card:hover { border-color: var(--panel-line); }
 .card .label { color: var(--gold-ink); }
 .card p { color: var(--muted); font-size: 16px; line-height: 1.55; }
 .card .shows { color: var(--ink); }
@@ -276,10 +293,13 @@ td .tool { color: var(--muted); font-weight: 400; }
   border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 8px;
 }
 .card .more {
-  margin-top: auto; padding-top: 4px; color: var(--gold-ink);
-  font-weight: 600; text-decoration: none;
+  margin-top: auto; padding-block: 6px; color: var(--gold-ink);
+  font-weight: 600; text-decoration: none; align-self: flex-start;
 }
 .card .more:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* A card with several repos lists them, pinned to the bottom like a single link */
+.more-list { list-style: none; margin: auto 0 0; padding: 4px 0 0; display: grid; gap: 2px; }
+.more-list .more { display: inline-block; }
 
 /* Certifications: solid chip = earned, dashed chip = in progress */
 .certs { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
@@ -314,6 +334,7 @@ td .tool { color: var(--muted); font-weight: 400; }
 .contact-panel {
   background: var(--panel);
   border: 1px solid var(--gold);
+  box-shadow: inset 0 1px 0 var(--panel-sheen);
   border-radius: 18px;
   padding: clamp(28px, 5vw, 48px) clamp(20px, 4.5vw, 48px) 28px;
 }
@@ -335,12 +356,12 @@ td .tool { color: var(--muted); font-weight: 400; }
   right: calc(16px + env(safe-area-inset-right, 0px));
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   display: inline-flex; align-items: center; gap: 8px;
-  min-height: 40px; padding: 0 14px; border-radius: 999px;
+  min-height: 44px; padding: 0 16px; border-radius: 999px;
   background: var(--panel); color: var(--ink); border: 1px solid var(--line-strong);
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
   cursor: pointer; transition: border-color 0.15s;
 }
-.motion-toggle:hover { border-color: var(--gold); }
+.motion-toggle:hover { border-color: var(--glass-edge); }
 .motion-toggle::before {
   content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
 }
@@ -348,9 +369,10 @@ td .tool { color: var(--muted); font-weight: 400; }
 
 /* ---------- Phone layout ---------- */
 @media (max-width: 760px) {
-  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .shield { width: 104px; order: -1; justify-self: center; }
-  .topbar { margin-bottom: 44px; }
+  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .emblem { width: 168px; order: -1; justify-self: center; }
+  .emblem canvas { left: -40px; top: -40px; width: calc(100% + 80px); height: calc(100% + 80px); }
+  .topbar { margin-bottom: 28px; }
   .hero .wrap { padding-bottom: 56px; }
 
   .route { grid-template-columns: minmax(0, 1fr); gap: 26px; }
@@ -365,13 +387,12 @@ td .tool { color: var(--muted); font-weight: 400; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
-  .card:hover { transform: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- The galaxy: drawn by the script at the bottom of this page -->
+<!-- The starfield: drawn by the script at the bottom of this page -->
 <canvas id="space" aria-hidden="true"></canvas>
 
 <a class="skip" href="#main">Skip to content</a>
@@ -406,11 +427,15 @@ td .tool { color: var(--muted); font-weight: 400; }
         </div>
       </div>
 
-      <svg class="shield" viewBox="0 0 120 140" role="img" aria-label="KM monogram">
-        <path class="outer" d="M60 5 L112 22 V64 C112 98 90 121 60 135 C30 121 8 98 8 64 V22 Z"/>
-        <path class="inner" d="M60 15 L103 29 V64 C103 92 85 112 60 124 C35 112 17 92 17 64 V29 Z"/>
-        <text x="60" y="84" text-anchor="middle">KM</text>
-      </svg>
+      <!-- The emblem: a glass KAM shield with a galaxy turning inside it -->
+      <div class="emblem" role="img" aria-label="KAM shield emblem made of glass, with a spiral galaxy inside">
+        <canvas id="emblem" aria-hidden="true"></canvas>
+        <svg class="shield" viewBox="0 0 120 140" aria-hidden="true">
+          <path class="outer" d="M60 5 L112 22 V64 C112 98 90 121 60 135 C30 121 8 98 8 64 V22 Z"/>
+          <path class="inner" d="M60 15 L103 29 V64 C103 92 85 112 60 124 C35 112 17 92 17 64 V29 Z"/>
+          <text x="60" y="84" text-anchor="middle">KAM</text>
+        </svg>
+      </div>
     </div>
   </div>
 </header>
@@ -519,7 +544,7 @@ td .tool { color: var(--muted); font-weight: 400; }
           <p>A Splunk detection pipeline for SSH brute-force attempts, built with SPL queries, threshold alerting and dashboards, and mapped to MITRE ATT&amp;CK technique T1110.001 (password guessing).</p>
           <p class="shows"><strong>Shows:</strong> detection logic, alert thresholds and threat mapping.</p>
           <ul class="tags"><li>Splunk</li><li>SPL</li><li>MITRE ATT&amp;CK</li></ul>
-          <a class="more" href="https://github.com/kmetellus1" target="_blank" rel="noopener">View on GitHub ↗</a>
+          <a class="more" href="https://github.com/kmetellus1/ssh-brute-force-splunk-siem" target="_blank" rel="noopener">View on GitHub&nbsp;↗</a>
         </article>
         <article class="card">
           <span class="label">Identity · Windows</span>
@@ -527,7 +552,7 @@ td .tool { color: var(--muted); font-weight: 400; }
           <p>User account administration in a TryHackMe Active Directory domain, done both in Active Directory Users and Computers and with PowerShell: managing accounts, permissions and password resets.</p>
           <p class="shows"><strong>Shows:</strong> core help desk and sysadmin work, by hand and scripted.</p>
           <ul class="tags"><li>Active Directory</li><li>ADUC</li><li>PowerShell</li></ul>
-          <a class="more" href="https://github.com/kmetellus1" target="_blank" rel="noopener">View on GitHub ↗</a>
+          <a class="more" href="https://github.com/kmetellus1/active-directory-user-account-mangement-" target="_blank" rel="noopener">View on GitHub&nbsp;↗</a>
         </article>
         <article class="card">
           <span class="label">Networking · Cisco</span>
@@ -535,7 +560,11 @@ td .tool { color: var(--muted); font-weight: 400; }
           <p>Six Packet Tracer labs covering LAN setup, static routing, DHCP, VLANs with inter-VLAN routing, device hardening, ACLs, DNS and web servers, and NAT/PAT.</p>
           <p class="shows"><strong>Shows:</strong> how networks are built, segmented and secured.</p>
           <ul class="tags"><li>Packet Tracer</li><li>VLANs</li><li>ACLs</li><li>NAT/PAT</li></ul>
-          <a class="more" href="https://github.com/kmetellus1" target="_blank" rel="noopener">View on GitHub ↗</a>
+          <ul class="more-list" aria-label="Labs on GitHub">
+            <li><a class="more" href="https://github.com/kmetellus1/-Network-Segmentation-with-VLANs-Inter-VLAN-Routing-Router-on-a-Stick-" target="_blank" rel="noopener">VLANs and inter-VLAN routing&nbsp;↗</a></li>
+            <li><a class="more" href="https://github.com/kmetellus1/cisco-packet-tracer-dhcp-router-configuration" target="_blank" rel="noopener">DHCP router configuration&nbsp;↗</a></li>
+            <li><a class="more" href="https://github.com/kmetellus1/LAN-to-Internet-Lab-NAT-PAT-Edge-Router" target="_blank" rel="noopener">NAT/PAT edge router&nbsp;↗</a></li>
+          </ul>
         </article>
       </div>
     </section>
@@ -599,22 +628,27 @@ td .tool { color: var(--muted); font-weight: 400; }
 
 <script>
 /* ------------------------------------------------------------------
-   Galaxy background
-   - Three layers of stars move at different speeds as you scroll (parallax)
-   - Stars stretch into streaks when you scroll fast
-   - A two-armed spiral galaxy turns around the KM shield, and spins with scroll
-   - Nebula clouds drift slowly; a shooting star crosses every few seconds
-   - Honors "reduce motion" and has a Pause button
+   Two canvases, one animation loop
+   - #space: three layers of stars with scroll parallax (they streak when you
+     scroll fast), slow nebula clouds, and a shooting star every few seconds
+   - #emblem: the KAM shield as a block of glass with a spiral galaxy turning
+     inside it, bevelled edges, a light sweep, a rainbow edge fringe and a
+     small caustic flare. It rocks gently, leans toward the mouse, and
+     "charges" (glows brighter, spins faster) while you scroll.
+   - Honors "reduce motion", has a Pause button, stops when the tab is hidden,
+     and skips the emblem when it is scrolled out of view
 ------------------------------------------------------------------- */
 (() => {
   const canvas = document.getElementById('space');
   const ctx = canvas.getContext('2d');
-  const shield = document.querySelector('.shield');
   const toggle = document.getElementById('motion-toggle');
-  if (!ctx || !shield || !toggle) return;
+  if (!ctx || !toggle) return;
+  const emCanvas = document.getElementById('emblem');
+  const ectx = emCanvas ? emCanvas.getContext('2d') : null;
+  if (ectx && window.Path2D) document.documentElement.classList.add('has-emblem');
   const reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  // Colors come from the CSS tokens, so the page and the canvas share one palette
+  // Colors come from the CSS tokens, so the page and the canvases share one palette
   const css = getComputedStyle(document.documentElement);
   const tok = (name, fallback) => css.getPropertyValue(name).trim() || fallback;
   const hexToRgb = hex => {
@@ -625,14 +659,18 @@ td .tool { color: var(--muted); font-weight: 400; }
   };
   const rgba = (hex, a) => { const [r, g, b] = hexToRgb(hex); return `rgba(${r},${g},${b},${a})`; };
   const C = {
-    bg: tok('--bg', '#050914'),
+    bg: tok('--bg', '#02030A'),
     star: tok('--star', '#DCE6FF'),
     gold: tok('--gold', '#D6AD55'),
-    neb1: tok('--nebula-1', '#1F3F99'),
-    neb2: tok('--nebula-2', '#4A2B85'),
+    neb1: tok('--nebula-1', '#2A3FB8'),
+    neb2: tok('--nebula-2', '#5B2FA8'),
     neb3: tok('--nebula-3', '#C9A04A'),
-    core: tok('--galaxy-core', '#FFE3A6'),
-    arm: tok('--galaxy-arm', '#9DB8FF'),
+    edge: tok('--glass-edge', '#B9CCFF'),
+    violet: tok('--glass-violet', '#7B5CFF'),
+    hi: tok('--glass-hi', '#F2F6FF'),
+    core: tok('--galaxy-core', '#ECE6FF'),
+    arm: tok('--galaxy-arm', '#8FA8FF'),
+    caustic: tok('--caustic', '#FF6A3D'),
   };
 
   const rand = (a, b) => a + Math.random() * (b - a);
@@ -643,11 +681,6 @@ td .tool { color: var(--muted); font-weight: 400; }
     return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
   };
   const mod = (n, m) => ((n % m) + m) % m;
-
-  let W = 0, H = 0, DPR = 1, lastW = 0;
-  let stars = [], nebulas = [], galaxyBuckets = [], shooters = [];
-  let gx = 0, gy0 = 0, gR = 200;
-  let running = false, rafId = 0, lastT = 0, lastScroll = window.scrollY, vel = 0, nextShot = 2.5;
 
   // A soft glow is painted once, then stamped each frame (much cheaper than new gradients)
   function makeGlow(hex, alpha, size) {
@@ -662,9 +695,18 @@ td .tool { color: var(--muted); font-weight: 400; }
     g.fillRect(0, 0, size, size);
     return c;
   }
-  const glowNeb = [makeGlow(C.neb1, 0.55, 256), makeGlow(C.neb2, 0.45, 256), makeGlow(C.neb3, 0.16, 256)];
-  const glowCore = makeGlow(C.core, 0.85, 128);
+  const glowNeb = [makeGlow(C.neb1, 0.5, 256), makeGlow(C.neb2, 0.45, 256), makeGlow(C.neb3, 0.12, 256)];
+  const glowCore = makeGlow(C.core, 0.9, 128);
+  const glowViolet = makeGlow(C.violet, 0.8, 128);
+  const glowHi = makeGlow(C.hi, 1, 64);
+  const glowCaustic = makeGlow(C.caustic, 0.9, 64);
+  const glowCyan = makeGlow('#4FC8FF', 0.8, 64);
 
+  let W = 0, H = 0, DPR = 1, lastW = 0;
+  let stars = [], nebulas = [], shooters = [];
+  let running = false, rafId = 0, lastT = 0, lastScroll = window.scrollY, vel = 0, nextShot = 2.5;
+
+  /* ---------- Starfield ---------- */
   function buildStars() {
     const count = Math.round(Math.min(900, Math.max(260, (W * H) / 1700)));
     const layers = [
@@ -680,7 +722,7 @@ td .tool { color: var(--muted); font-weight: 400; }
           x: Math.random() * W, y: Math.random() * H, depth: L.depth,
           size: rand(L.size[0], L.size[1]), a: rand(L.alpha[0], L.alpha[1]),
           tw: rand(0.6, 2.4), ph: Math.random() * Math.PI * 2,
-          gold: Math.random() < 0.08,
+          gold: Math.random() < 0.06,
         });
       }
     }
@@ -697,59 +739,6 @@ td .tool { color: var(--muted); font-weight: 400; }
     ];
   }
 
-  function buildGalaxy() {
-    const n = W < 700 ? 800 : 1600;
-    const palette = [
-      rgba(C.core, 0.85), rgba(C.core, 0.45), rgba(C.gold, 0.5),
-      rgba(C.star, 0.75), rgba(C.star, 0.35), rgba(C.arm, 0.6), rgba(C.arm, 0.3), rgba(C.neb2, 0.6),
-    ];
-    const pts = [];
-    for (let i = 0; i < n; i++) {
-      let r, th, b;
-      if (Math.random() < 0.18) {
-        // the bright central bulge
-        r = Math.min(1, Math.abs(gauss()) * 0.09);
-        th = Math.random() * Math.PI * 2;
-        b = Math.random() < 0.6 ? 0 : 1;
-      } else {
-        // two spiral arms, winding outward
-        const t = Math.pow(Math.random(), 0.75);
-        r = 0.06 + t * 0.94;
-        th = (i % 2) * Math.PI + t * 3.6 + gauss() * (0.28 * (1 - t) + 0.12);
-        const k = Math.random();
-        b = t < 0.25 ? (k < 0.5 ? 1 : 2)
-          : k < 0.35 ? 3 : k < 0.6 ? 4 : k < 0.8 ? 5 : k < 0.93 ? 6 : 7;
-      }
-      pts.push({ r, th, b, s: rand(0.6, r < 0.15 ? 1.7 : 1.3) });
-    }
-    galaxyBuckets = palette.map((fill, i) => ({ fill, pts: pts.filter(p => p.b === i) }));
-  }
-
-  // The galaxy is centered on the shield where it sits before you scroll
-  function measure() {
-    const rect = shield.getBoundingClientRect();
-    gx = rect.left + rect.width / 2;
-    gy0 = rect.top + window.scrollY + rect.height / 2;
-    gR = Math.max(140, Math.min(420, Math.min(W, H) * (W < 700 ? 0.44 : 0.42)));
-    if (!running) draw(lastT, window.scrollY, 0);
-  }
-
-  function resize() {
-    const w = window.innerWidth, h = window.innerHeight;
-    DPR = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(w * DPR);
-    canvas.height = Math.round(h * DPR);
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    W = w; H = h;
-    // Rebuild only when the width really changes (phones resize height while scrolling)
-    if (!stars.length || Math.abs(w - lastW) > 40) {
-      lastW = w;
-      buildStars(); buildNebulas(); buildGalaxy();
-    }
-    measure();
-  }
-
   function spawnShooter() {
     const dir = Math.random() < 0.5 ? -1 : 1;
     const ang = rand(0.25, 0.55);
@@ -762,7 +751,7 @@ td .tool { color: var(--muted); font-weight: 400; }
     });
   }
 
-  function draw(t, sy, dt) {
+  function drawSpace(t, sy, dt) {
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = 1;
@@ -778,28 +767,7 @@ td .tool { color: var(--muted); font-weight: 400; }
       ctx.drawImage(n.img, x - n.r * n.sx, y - n.r, n.r * 2 * n.sx, n.r * 2);
     }
 
-    // 2. Spiral galaxy: turns slowly on its own and spins further as you scroll
-    const cy = gy0 - sy * 0.12;
-    if (cy > -gR && cy < H + gR) {
-      const spin = t * 0.06 + sy * 0.0009;
-      const tilt = 0.52, rot = -0.42, cr = Math.cos(rot), sr = Math.sin(rot);
-      ctx.save();
-      ctx.translate(gx, cy);
-      ctx.rotate(rot);
-      ctx.drawImage(glowCore, -gR * 0.55, -gR * 0.55 * tilt, gR * 1.1, gR * 1.1 * tilt);
-      ctx.restore();
-      for (const B of galaxyBuckets) {
-        ctx.fillStyle = B.fill;
-        for (const p of B.pts) {
-          const ang = p.th + spin;
-          const x = Math.cos(ang) * p.r * gR;
-          const y = Math.sin(ang) * p.r * gR * tilt;
-          ctx.fillRect(gx + x * cr - y * sr, cy + x * sr + y * cr, p.s, p.s);
-        }
-      }
-    }
-
-    // 3. Stars in three depth layers; they twinkle, and streak when you scroll fast
+    // 2. Stars in three depth layers; they twinkle, and streak when you scroll fast
     ctx.globalCompositeOperation = 'source-over';
     const M = 70, span = H + 2 * M;
     let fill = '';
@@ -821,7 +789,7 @@ td .tool { color: var(--muted); font-weight: 400; }
     }
     ctx.globalAlpha = 1;
 
-    // 4. Shooting stars
+    // 3. Shooting stars
     if (running) {
       nextShot -= dt;
       if (nextShot <= 0) { spawnShooter(); nextShot = rand(3.5, 8); }
@@ -836,8 +804,8 @@ td .tool { color: var(--muted); font-weight: 400; }
       const len = s.len * Math.sin(Math.PI * (s.life / s.max));
       const tx = hx - s.ux * len, ty = hy - s.uy * len;
       const grad = ctx.createLinearGradient(hx, hy, tx, ty);
-      grad.addColorStop(0, rgba(C.core, 0.95));
-      grad.addColorStop(1, rgba(C.core, 0));
+      grad.addColorStop(0, rgba(C.hi, 0.95));
+      grad.addColorStop(1, rgba(C.hi, 0));
       ctx.strokeStyle = grad;
       ctx.lineWidth = 1.6;
       ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(tx, ty); ctx.stroke();
@@ -845,16 +813,238 @@ td .tool { color: var(--muted); font-weight: 400; }
     ctx.globalCompositeOperation = 'source-over';
   }
 
+  /* ---------- Glass shield emblem ---------- */
+  // Everything below is drawn in the shield's own 120 x 140 unit space
+  const SHIELD = window.Path2D ? new Path2D('M60 5 L112 22 V64 C112 98 90 121 60 135 C30 121 8 98 8 64 V22 Z') : null;
+  const SHIELD_IN = window.Path2D ? new Path2D('M60 15 L103 29 V64 C103 92 85 112 60 124 C35 112 17 92 17 64 V29 Z') : null;
+  const GC = { x: 60, y: 62 };   // galaxy center
+  const GR = 64;                 // galaxy radius: big enough that the glass crops the arms
+  const TILT = 0.5, GROT = -0.5; // seen at an angle, like the reference
+  const gcr = Math.cos(GROT), gsr = Math.sin(GROT);
+  let EW = 0, EH = 0, emVisible = true, galaxy = [], grads = null;
+  let rock = 0.18, rockTarget = 0, charge = 0;
+
+  function buildGalaxy() {
+    const n = 2400;
+    const palette = [
+      rgba(C.core, 1), rgba(C.core, 0.6), rgba(C.hi, 0.95),
+      rgba(C.arm, 0.95), rgba(C.arm, 0.55), rgba(C.violet, 0.9), rgba(C.violet, 0.5), rgba(C.caustic, 0.6),
+    ];
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      let r, th, b;
+      if (Math.random() < 0.2) {
+        // the bright central bulge
+        r = Math.min(1, Math.abs(gauss()) * 0.1);
+        th = Math.random() * Math.PI * 2;
+        b = Math.random() < 0.6 ? 0 : 2;
+      } else {
+        // two spiral arms, winding outward
+        const t = Math.pow(Math.random(), 0.8);
+        r = 0.06 + t * 0.94;
+        th = (i % 2) * Math.PI + t * 4.2 + gauss() * (0.3 * (1 - t) + 0.12);
+        const k = Math.random();
+        b = t < 0.22 ? (k < 0.5 ? 1 : 2)
+          : k < 0.3 ? 2 : k < 0.55 ? 3 : k < 0.72 ? 4 : k < 0.86 ? 5 : k < 0.97 ? 6 : 7;
+      }
+      pts.push({ r, th, b, s: rand(0.9, r < 0.15 ? 2.2 : 1.9) });
+    }
+    galaxy = palette.map((fill, i) => ({ fill, pts: pts.filter(p => p.b === i) }));
+  }
+
+  // Gradients live in unit space, so they can be made once and reused every frame
+  function buildGrads() {
+    const c = ectx;
+    const interior = c.createRadialGradient(GC.x, GC.y, 0, GC.x, GC.y, 80);
+    interior.addColorStop(0, rgba(C.violet, 0.4));
+    interior.addColorStop(0.5, 'rgba(22,30,96,0.7)');
+    interior.addColorStop(1, 'rgba(6,10,40,0.96)');
+    const sheen = c.createLinearGradient(0, 5, 0, 64);
+    sheen.addColorStop(0, rgba(C.hi, 0.13));
+    sheen.addColorStop(1, rgba(C.hi, 0));
+    const outer = c.createLinearGradient(8, 5, 112, 135);
+    outer.addColorStop(0, rgba(C.hi, 0.95));
+    outer.addColorStop(0.35, rgba(C.edge, 0.8));
+    outer.addColorStop(0.7, rgba(C.violet, 0.75));
+    outer.addColorStop(1, rgba(C.edge, 0.9));
+    const inner = c.createLinearGradient(17, 15, 103, 124);
+    inner.addColorStop(0, rgba(C.hi, 0.55));
+    inner.addColorStop(0.5, rgba(C.edge, 0.2));
+    inner.addColorStop(1, rgba(C.violet, 0.5));
+    grads = { interior, sheen, outer, inner };
+  }
+
+  function sizeEmblem() {
+    if (!ectx) return;
+    const r = emCanvas.getBoundingClientRect();
+    EW = r.width; EH = r.height;
+    emCanvas.width = Math.max(1, Math.round(EW * DPR));
+    emCanvas.height = Math.max(1, Math.round(EH * DPR));
+  }
+
+  function drawEmblem(t, sy, dt) {
+    if (!ectx || !SHIELD || !EW) return;
+    if (!grads) buildGrads();
+    const c = ectx;
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    c.globalCompositeOperation = 'source-over';
+    c.globalAlpha = 1;
+    c.clearRect(0, 0, emCanvas.width, emCanvas.height);
+
+    // The shield fills ~84% of the emblem box; the canvas has extra room for the glow
+    const pad = EW > 260 ? 56 : 40;
+    const sc = ((EH - pad * 2) * 0.96) / 140;
+    const px = 1 / sc;                     // one screen pixel, in unit space
+
+    // Gentle rocking (a turn around the vertical axis) plus a lean toward the mouse
+    const goal = running ? rockTarget + Math.sin(t * 0.45) * 0.2 : 0.18;
+    rock += (goal - rock) * (running ? 0.05 : 1);
+    const sx = Math.cos(rock), sk = Math.sin(rock) * 0.1;
+
+    c.setTransform(DPR, 0, 0, DPR, 0, 0);
+    c.translate(EW / 2, EH / 2);
+    c.transform(sx, sk, 0, 1, 0, 0);
+    c.scale(sc, sc);
+    c.translate(-60, -70);
+    c.lineJoin = 'round';
+
+    // 1. Glow behind the glass
+    c.save();
+    c.shadowColor = rgba(C.violet, 0.5 + 0.3 * charge);
+    c.shadowBlur = (30 + 34 * charge) * DPR * (EW > 260 ? 1 : 0.7);
+    c.fillStyle = 'rgba(4,6,20,0.94)';
+    c.fill(SHIELD);
+    c.restore();
+
+    // 2. Inside the glass
+    c.save();
+    c.clip(SHIELD);
+    c.fillStyle = grads.interior;
+    c.fillRect(0, 0, 120, 140);
+
+    // The galaxy: inner stars orbit faster than outer ones; scrolling spins it further
+    c.globalCompositeOperation = 'lighter';
+    const spin = t * 0.16 + sy * 0.0016;
+    c.save();
+    c.translate(GC.x, GC.y);
+    c.rotate(GROT);
+    c.globalAlpha = 0.75 + 0.25 * charge;
+    c.drawImage(glowViolet, -GR * 1.1, -GR * 1.1 * TILT, GR * 2.2, GR * 2.2 * TILT);
+    c.drawImage(glowCore, -GR * 0.5, -GR * 0.5 * TILT, GR, GR * TILT);
+    c.restore();
+    c.globalAlpha = 1;
+    for (const B of galaxy) {
+      c.fillStyle = B.fill;
+      for (const p of B.pts) {
+        const ang = p.th + spin * (1.7 - p.r);
+        const x = Math.cos(ang) * p.r * GR;
+        const y = Math.sin(ang) * p.r * GR * TILT;
+        const d = p.s * px;
+        c.fillRect(GC.x + x * gcr - y * gsr, GC.y + x * gsr + y * gcr, d, d);
+      }
+    }
+
+    // Light caught inside the glass: an inner edge glow, a top sheen, and a slow sweep
+    c.strokeStyle = rgba(C.arm, 0.16 + 0.12 * charge);
+    c.lineWidth = 16;
+    c.stroke(SHIELD);
+    c.strokeStyle = rgba(C.violet, 0.3);
+    c.lineWidth = 7;
+    c.stroke(SHIELD);
+    c.strokeStyle = rgba(C.edge, 0.4);
+    c.lineWidth = 3;
+    c.stroke(SHIELD);
+    c.fillStyle = grads.sheen;
+    c.fillRect(0, 0, 120, 70);
+    const sweep = running ? mod(t * 0.08, 1.5) - 0.25 : 0.32;
+    c.save();
+    c.translate(-30 + sweep * 180, 70);
+    c.rotate(-0.55);
+    const band = c.createLinearGradient(-16, 0, 16, 0);
+    band.addColorStop(0, rgba(C.hi, 0));
+    band.addColorStop(0.5, rgba(C.hi, 0.16));
+    band.addColorStop(1, rgba(C.hi, 0));
+    c.fillStyle = band;
+    c.fillRect(-16, -140, 32, 280);
+    c.restore();
+    c.restore(); // ends the clip
+
+    // 3. The glass edges: inner bevel, a rainbow fringe, then the bright rim
+    c.globalCompositeOperation = 'lighter';
+    c.strokeStyle = grads.inner;
+    c.lineWidth = 1.1;
+    c.stroke(SHIELD_IN);
+    c.lineWidth = 1.3;
+    c.save(); c.translate(-1, 0.4); c.strokeStyle = rgba(C.caustic, 0.32); c.stroke(SHIELD); c.restore();
+    c.save(); c.translate(1, -0.4); c.strokeStyle = 'rgba(79,200,255,0.32)'; c.stroke(SHIELD); c.restore();
+    c.strokeStyle = rgba(C.violet, 0.35);
+    c.lineWidth = 5;
+    c.stroke(SHIELD);
+    c.strokeStyle = grads.outer;
+    c.lineWidth = 2.4;
+    c.stroke(SHIELD);
+
+    // 4. Glints on the corners and a small caustic flare at the lower left
+    const pulse = running ? 0.5 + 0.5 * Math.sin(t * 1.3) : 0.6;
+    c.globalAlpha = 0.55 + 0.45 * pulse;
+    c.drawImage(glowHi, 60 - 9, 5 - 9, 18, 18);
+    c.globalAlpha = 0.35 + 0.35 * (1 - pulse);
+    c.drawImage(glowHi, 112 - 7, 22 - 7, 14, 14);
+    c.drawImage(glowHi, 8 - 6, 22 - 6, 12, 12);
+    c.globalAlpha = 0.6 + 0.3 * charge;
+    c.drawImage(glowCaustic, 2, 96, 30, 11);
+    c.drawImage(glowCyan, 12, 100, 26, 8);
+    c.globalAlpha = 1;
+
+    // 5. "KAM" etched small into the narrow foot of the shield
+    c.globalCompositeOperation = 'source-over';
+    c.font = '700 17px "Barlow Condensed", "Arial Narrow", Arial, sans-serif';
+    c.textAlign = 'center';
+    c.textBaseline = 'alphabetic';
+    c.fillStyle = rgba(C.hi, 0.82);
+    c.shadowColor = rgba(C.edge, 0.9);
+    c.shadowBlur = 8 * DPR;
+    c.fillText('KAM', 60, 119);
+    c.shadowBlur = 0;
+  }
+
+  /* ---------- Loop and controls ---------- */
+  function resize() {
+    const w = window.innerWidth, h = window.innerHeight;
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(w * DPR);
+    canvas.height = Math.round(h * DPR);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    W = w; H = h;
+    // Rebuild only when the width really changes (phones resize height while scrolling)
+    if (!stars.length || Math.abs(w - lastW) > 40) {
+      lastW = w;
+      buildStars(); buildNebulas();
+    }
+    sizeEmblem();
+    if (!running) drawStill();
+  }
+
+  function drawStill() {
+    drawSpace(lastT, window.scrollY, 0);
+    drawEmblem(lastT, window.scrollY, 0);
+  }
+
   function frame(now) {
     const t = now / 1000;
     const dt = lastT ? Math.min(0.05, t - lastT) : 0.016;
     lastT = t;
     const sy = window.scrollY;
-    const raw = (sy - lastScroll) / Math.max(dt, 0.001);
+    // A jump of more than a screen (a nav link, restored scroll) isn't a scroll gesture
+    const jumped = Math.abs(sy - lastScroll) > H * 0.9;
+    const raw = jumped ? 0 : (sy - lastScroll) / Math.max(dt, 0.001);
     lastScroll = sy;
     vel += (raw - vel) * 0.18;           // smoothed scroll speed, in px per second
     if (Math.abs(vel) < 1) vel = 0;
-    draw(t, sy, dt);
+    charge += (Math.min(1, Math.abs(vel) / 2500) - charge) * 0.06;
+    drawSpace(t, sy, dt);
+    if (emVisible) drawEmblem(t, sy, dt);
     rafId = requestAnimationFrame(frame);
   }
 
@@ -867,19 +1057,20 @@ td .tool { color: var(--muted); font-weight: 400; }
   function stop() {
     running = false;
     cancelAnimationFrame(rafId);
-    vel = 0;
+    vel = 0; charge = 0;
     shooters = [];
-    draw(lastT, window.scrollY, 0);       // leave a still frame behind
+    drawStill();                          // leave a still frame behind
   }
 
   // Motion setting: the visitor's own choice wins, otherwise follow "reduce motion"
   let pref = null;
   try { pref = localStorage.getItem('kirk-motion'); } catch (e) {}
+  const motionOff = () => (pref ? pref === 'paused' : reduceMQ.matches);
   function applyMotion() {
-    const off = pref ? pref === 'paused' : reduceMQ.matches;
+    const off = motionOff();
     toggle.textContent = off ? 'Play motion' : 'Pause motion';
     toggle.dataset.state = off ? 'paused' : 'playing';
-    if (off) stop(); else start();
+    if (off || document.hidden) stop(); else start();
   }
   toggle.addEventListener('click', () => {
     pref = running ? 'paused' : 'playing';
@@ -887,12 +1078,27 @@ td .tool { color: var(--muted); font-weight: 400; }
     applyMotion();
   });
   if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', applyMotion);
+  document.addEventListener('visibilitychange', applyMotion);
+
+  // The emblem leans toward a mouse pointer (not touch)
+  window.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    rockTarget = ((e.clientX / Math.max(W, 1)) - 0.5) * 0.5;
+  }, { passive: true });
+
+  // Skip drawing the emblem while it is scrolled out of view
+  if (ectx && 'IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      emVisible = entries[0].isIntersecting;
+    }).observe(emCanvas);
+  }
 
   let resizeTimer = 0;
   window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 120); });
-  window.addEventListener('load', measure);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  // Redraw once the display font arrives, so the etched "KAM" uses it
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!running) drawStill(); });
 
+  buildGalaxy();
   resize();
   applyMotion();
 })();
